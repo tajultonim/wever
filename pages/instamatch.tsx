@@ -6,7 +6,7 @@ import { getToken } from "next-auth/jwt";
 import jwt from "jsonwebtoken";
 import { GetServerSidePropsContext } from "next";
 
-let socket: Socket = io(process.env.SOCKET_SERVER || "", {
+let socket: Socket = io(process.env.NEXT_PUBLIC_SOCKET_SERVER || "", {
   autoConnect: false,
 });
 export default function Instamatch() {
