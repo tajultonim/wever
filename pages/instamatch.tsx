@@ -9,7 +9,6 @@ let socket: Socket = io("", { autoConnect: false });
 let pc: RTCPeerConnection;
 let offerDescription: RTCSessionDescription;
 
-
 export default function Instamatch() {
   const { data: session } = useSession();
   const [onlineCount, setOnlineCount] = useState(0);
@@ -28,12 +27,16 @@ export default function Instamatch() {
     socket = io(process.env.NEXT_PUBLIC_SOCKET_SERVER || "", {
       autoConnect: false,
       auth: {
-        token: parseCookies()["next-auth.session-token"],
+        token:
+          parseCookies()[
+            `${
+              window.location.href?.startsWith("https://") ? "__Secure-" : ""
+            }next-auth.session-token`
+          ],
       },
     });
     let goffer = false;
     initRTC();
-
     socket.connect();
     socket.on("connect", () => {
       socket.emit("start", socket.id);

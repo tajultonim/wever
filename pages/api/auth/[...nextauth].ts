@@ -4,6 +4,9 @@ import GoogleProvider from "next-auth/providers/google";
 import { SignJWT, jwtVerify } from "jose";
 import { JWTDecodeParams, JWTEncodeParams } from "next-auth/jwt";
 
+const useSecureCookies = process.env.NEXTAUTH_URL?.startsWith("https://");
+const cookiePrefix = useSecureCookies ? "__Secure-" : "";
+
 export default NextAuth({
   session: {
     strategy: "jwt",
@@ -11,7 +14,7 @@ export default NextAuth({
 
   cookies: {
     sessionToken: {
-      name: `__Secure-next-auth.session-toke`,
+      name: `${cookiePrefix}next-auth.session-token`,
       options: {
         httpOnly: false,
         sameSite: "lax",
