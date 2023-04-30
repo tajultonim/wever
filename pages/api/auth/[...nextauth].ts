@@ -11,7 +11,7 @@ export default NextAuth({
 
   cookies: {
     sessionToken: {
-      name: `next-auth.session-token`,
+      name: `__Secure-next-auth.session-toke`,
       options: {
         httpOnly: false,
         sameSite: "lax",
