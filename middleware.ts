@@ -1,3 +1,18 @@
-export { default } from "next-auth/middleware"
+import withAuth from "next-auth/middleware";
+import { JWTDecodeParams } from "next-auth/jwt";
+import { jwtVerify } from "jose";
 
-
+export default withAuth({
+  jwt: {
+    async decode(params: JWTDecodeParams) {
+      const jwtDecoded = await jwtVerify(
+        params.token as string,
+        new TextEncoder().encode(params.secret as string)
+      );
+      return {
+        payload: jwtDecoded.payload,
+        protectedHeader: jwtDecoded.protectedHeader,
+      };
+    },
+  },
+});
