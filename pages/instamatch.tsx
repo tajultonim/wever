@@ -74,10 +74,29 @@ export default function Instamatch() {
       const servers = {
         iceServers: [
           {
-            urls: [
-              "stun:stun1.l.google.com:19302",
-              "stun:stun2.l.google.com:19302",
-            ],
+            url: "stun:global.stun.twilio.com:3478",
+            urls: "stun:global.stun.twilio.com:3478",
+          },
+          {
+            url: "turn:global.turn.twilio.com:3478?transport=udp",
+            username:
+              "a1020a62231a207345398a1aacfb5b34443a880860f62e8af076675f25fa6e98",
+            urls: "turn:global.turn.twilio.com:3478?transport=udp",
+            credential: "JXZ0G2p/60SlorIvb/MDKPpSMFzSPtAwxNg0OIDFVmI=",
+          },
+          {
+            url: "turn:global.turn.twilio.com:3478?transport=tcp",
+            username:
+              "a1020a62231a207345398a1aacfb5b34443a880860f62e8af076675f25fa6e98",
+            urls: "turn:global.turn.twilio.com:3478?transport=tcp",
+            credential: "JXZ0G2p/60SlorIvb/MDKPpSMFzSPtAwxNg0OIDFVmI=",
+          },
+          {
+            url: "turn:global.turn.twilio.com:443?transport=tcp",
+            username:
+              "a1020a62231a207345398a1aacfb5b34443a880860f62e8af076675f25fa6e98",
+            urls: "turn:global.turn.twilio.com:443?transport=tcp",
+            credential: "JXZ0G2p/60SlorIvb/MDKPpSMFzSPtAwxNg0OIDFVmI=",
           },
         ],
         iceCandidatePoolSize: 10,
