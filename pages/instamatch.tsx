@@ -15,7 +15,7 @@ export default function Instamatch() {
   const [onlineCount, setOnlineCount] = useState(0);
   const [queuedMsg, setQueuedMsg] = useState("");
   const [partnerName, setPartnerName] = useState("");
-  const [partnerImg, setPartnerImg] = useState("");
+  const [partnerImg, setPartnerImg] = useState("/img/avatar.svg");
   const [isMatched, setIsMatched] = useState(false);
   const [gotOffer, setGotOffer] = useState(false);
   const audioEl = useRef<HTMLAudioElement>(null);
@@ -56,7 +56,7 @@ export default function Instamatch() {
 
     socket.on("pdisconnected", () => {
       setPartnerName("");
-      setPartnerImg("");
+      setPartnerImg("/img/avatar.svg");
       setIsMatched(false);
       resetRTC();
       socket.emit("start", socket.id);
@@ -64,7 +64,7 @@ export default function Instamatch() {
 
     socket.on("ydisconnected", () => {
       setPartnerName("");
-      setPartnerImg("");
+      setPartnerImg("/img/avatar.svg");
       setIsMatched(false);
       resetRTC();
       socket.emit("start", socket.id);
