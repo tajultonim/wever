@@ -1,11 +1,16 @@
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
+import Head from "next/head";
 
 export default function Home() {
   const { data: session } = useSession();
   return (
     <>
+      <Head>
+        <title>Higuys - Not Hilokal 🥴</title>
+        <meta name="description" content="Beta test for Higuys!"/> 
+      </Head>
       <div className=" w-full h-full flex justify-center">
         <div className="p-2 w-full max-w-sm">
           <header className=" w-full border-b pb-1 ">

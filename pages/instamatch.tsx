@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { io, Socket } from "socket.io-client";
 import { parseCookies } from "nookies";
 import Link from "next/link";
+import Head from "next/head";
 
 let socket: Socket = io("", { autoConnect: false });
 let pc: RTCPeerConnection;
@@ -193,6 +194,9 @@ export default function Instamatch() {
 
   return (
     <>
+      <Head>
+        <title>Instamatch - Talk to strangers</title>
+      </Head>
       <audio className=" hidden" controls autoPlay ref={audioEl}></audio>
       <div className=" flex-col flex w-full h-full justify-center items-center">
         <div className="w-full h-full flex justify-center items-center flex-col p-4 max-w-sm">
