@@ -5,6 +5,8 @@ import { io, Socket } from "socket.io-client";
 import { parseCookies } from "nookies";
 import Link from "next/link";
 import Head from "next/head";
+import noAvatarImg from "../public/img/avatar.svg";
+import logoImg from "../public/icons/icon-192x192.png";
 
 let socket: Socket = io("", { autoConnect: false });
 let pc: RTCPeerConnection;
@@ -216,80 +218,100 @@ export default function Instamatch() {
       <Head>
         <title>Instamatch - Talk to strangers</title>
       </Head>
-      <audio className=" hidden" controls autoPlay ref={audioEl}></audio>
-      <div className=" flex-col flex w-full h-full justify-center items-center">
-        <div className="w-full h-full flex justify-center items-center flex-col p-4 max-w-sm">
-          <div className=" max-w-xl bg-blue-200 w-full m-10 rounded text-black grid grid-cols-2">
-            <div className=" py-5 col-span-2 text-black flex justify-center flex-col items-center">
-              <p> Currently Online: {onlineCount}</p>
-              {/* <p>{gotOffer ? "offered" : "not offered"}</p> */}
+      <div className=" w-full h-full flex justify-center">
+        <div className="p-2 w-full max-w-sm">
+          <header className=" pl-2 w-full border-b pb-2 flex items-center">
+            <div className="relative overflow-hidden w-8 h-8 aspect-square object-cover">
+              <Image
+                alt="HiGuys"
+                src={logoImg}
+                fill={true}
+                sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
+              />
             </div>
-            <div className=" py-5 w-full flex-col flex justify-center items-center h-full">
-              <div className="relative overflow-hidden w-1/2 aspect-square object-cover rounded-full">
-                <Image
-                  alt={session?.user?.name || ""}
-                  src={session?.user?.image || ""}
-                  fill={true}
-                />
-              </div>
-              <div className=" font-semibold text-lg mt-2">
-                {session?.user?.name?.split(" ")[0]}
-              </div>
-            </div>
-            <div className=" w-full flex-col flex justify-center items-center h-full">
-              <div className="relative overflow-hidden w-1/2 aspect-square object-cover rounded-full">
-                {partnerImg && (
-                  <Image alt={partnerName} src={partnerImg} fill={true} />
-                )}
-              </div>
-              <div className=" font-semibold text-lg mt-2">
-                {partnerName.split(" ")[0]}
-              </div>
-            </div>
+            <h1 className=" pl-1 text-3xl font-medium ">HiGuys</h1>
+          </header>
+          <audio className=" hidden" controls autoPlay ref={audioEl}></audio>
+          <div className=" flex-col flex w-full h-full justify-center items-center">
+            <div className="w-full h-full flex justify-center items-center flex-col p-4 max-w-sm">
+              <div className=" max-w-xl bg-blue-200 w-full rounded text-black grid grid-cols-2">
+                <div className=" py-5 col-span-2 text-black flex justify-center flex-col items-center">
+                  <p> Currently Online: {onlineCount}</p>
+                  {/* <p>{gotOffer ? "offered" : "not offered"}</p> */}
+                </div>
+                <div className=" py-5 w-full flex-col flex justify-center items-center h-full">
+                  <div className="relative overflow-hidden w-1/2 aspect-square object-cover rounded-full">
+                    <Image
+                      alt={session?.user?.name || ""}
+                      src={session?.user?.image || noAvatarImg}
+                      fill={true}
+                      sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
+                    />
+                  </div>
+                  <div className=" font-semibold text-lg mt-2">
+                    {session?.user?.name?.split(" ")[0]}
+                  </div>
+                </div>
+                <div className=" w-full flex-col flex justify-center items-center h-full">
+                  <div className="relative overflow-hidden w-1/2 aspect-square object-cover rounded-full">
+                    {partnerImg && (
+                      <Image alt={partnerName} src={partnerImg} fill={true} />
+                    )}
+                  </div>
+                  <div className=" font-semibold text-lg mt-2">
+                    {partnerName.split(" ")[0]}
+                  </div>
+                </div>
 
-            <div className="py-5 col-span-2 flex flex-col justify-center items-center">
-              {isMatched && (
-                <>
-                  {!inCall ? (
-                    <button
-                      onClick={async () => {
-                        await acceptBtnHandler();
-                      }}
-                      className=" text-white p-1 bg-blue-500 hover:bg-blue-400 active:bg-blue-600 rounded font-semibold py-1"
-                    >
-                      Accept
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        setIsMuted((prev) => {
-                          return !prev;
-                        });
-                      }}
-                      className=" text-white p-1 bg-blue-500 hover:bg-blue-400 active:bg-blue-600 rounded font-semibold py-1"
-                    >
-                      {isMuted ? "Unmute" : "Mute"}
-                    </button>
+                <div className="py-5 col-span-2 flex flex-col justify-center items-center">
+                  {isMatched && (
+                    <>
+                      {!inCall ? (
+                        <button
+                          onClick={async () => {
+                            await acceptBtnHandler();
+                          }}
+                          className=" text-white p-1 bg-blue-500 hover:bg-blue-400 active:bg-blue-600 rounded font-semibold py-1"
+                        >
+                          Accept
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            setIsMuted((prev) => {
+                              return !prev;
+                            });
+                          }}
+                          className=" text-white p-1 bg-blue-500 hover:bg-blue-400 active:bg-blue-600 rounded font-semibold py-1"
+                        >
+                          {isMuted ? "Unmute" : "Mute"}
+                        </button>
+                      )}
+                      <button
+                        className=" text-blue-500 font-semibold py-1"
+                        onClick={() => {
+                          socket.emit("stop");
+                        }}
+                      >
+                        Skip
+                      </button>
+                    </>
                   )}
-                  <button
-                    className=" text-blue-500 font-semibold py-1"
-                    onClick={() => {
-                      socket.emit("stop");
-                    }}
-                  >
-                    Skip
-                  </button>
-                </>
-              )}
-              <div className=" text-black">{queuedMsg}</div>
+                  <div className=" text-black">{queuedMsg}</div>
+                </div>
+              </div>
             </div>
+            <Link href="/">
+              <button className=" px-2 bg-gray-800 w-full text-gray-400 rounded-sm mt-3 py-1 font-semibold text-lg">
+                Go to Home
+              </button>
+            </Link>
           </div>
         </div>
-        <Link href="/">
-          <button className=" px-2 bg-gray-900 w-full text-gray-400 rounded-sm mt-3 py-1 font-semibold text-lg">
-            Go to Home
-          </button>
-        </Link>
       </div>
     </>
   );

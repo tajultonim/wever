@@ -1,4 +1,4 @@
-import withAuth from "next-auth/middleware";
+import withAuth, { NextAuthMiddlewareOptions } from "next-auth/middleware";
 import { JWTDecodeParams } from "next-auth/jwt";
 import { jwtVerify } from "jose";
 
@@ -16,3 +16,8 @@ export default withAuth({
     },
   },
 });
+
+
+export const config={
+  matcher:["/","/instamatch"]
+}
