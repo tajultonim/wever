@@ -228,7 +228,7 @@ export default function Instamatch() {
       </Head>
 
       <div className=" w-full h-full flex justify-center">
-        <div className=" pt-5 w-full max-w-sm">
+        <div className=" pt-3 w-full max-w-sm">
           <Header />
           <audio className=" hidden" controls autoPlay ref={audioEl}></audio>
           <div className=" p-2 flex-col flex w-full justify-center">

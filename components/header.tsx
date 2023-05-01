@@ -24,7 +24,7 @@ export default function Header() {
   return (
     <>
       {!isOnline && (
-        <div className=" -mt-5 bg-red-500 p-2 rounded-t mb-2">No internet!</div>
+        <div className=" -mt-3 bg-red-500 p-2 rounded-t mb-2">No internet!</div>
       )}
       <header className=" px-2 w-full border-b border-gray-600 pb-2 flex items-center justify-between">
         <div

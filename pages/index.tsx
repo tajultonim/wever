@@ -16,7 +16,7 @@ export default function Home() {
         <meta name="description" content="Beta test for Higuys!" />
       </Head>
       <div className=" w-full h-full flex justify-center">
-        <div className=" pt-5 w-full max-w-sm">
+        <div className=" pt-3 w-full max-w-sm">
           <Header />
           <main className=" p-2 w-full flex justify-center items-center py-2 flex-col">
             <div className=" w-full rounded-xl bg-slate-800">
