@@ -145,7 +145,7 @@ export default function Instamatch() {
     }
 
     async function resetRTC() {
-      router.reload();
+      window.location.reload()
       // setGotOffer(false);
       // goffer = false;
       // if (pc.connectionState == "connected") {
