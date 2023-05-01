@@ -6,7 +6,8 @@ import { parseCookies } from "nookies";
 import Link from "next/link";
 import Head from "next/head";
 import noAvatarImg from "../public/img/avatar.svg";
-import logoImg from "../public/icons/icon-192x192.png";
+import Header from "@/components/header";
+import { useRouter } from "next/router";
 
 let socket: Socket = io("", { autoConnect: false });
 let pc: RTCPeerConnection;
@@ -14,6 +15,7 @@ let offerDescription: RTCSessionDescription;
 
 export default function Instamatch() {
   const { data: session } = useSession();
+  const router = useRouter()
   const [onlineCount, setOnlineCount] = useState(0);
   const [queuedMsg, setQueuedMsg] = useState("Connecting...");
   const [partnerName, setPartnerName] = useState("");
@@ -22,8 +24,7 @@ export default function Instamatch() {
   const [gotOffer, setGotOffer] = useState(false);
   const audioEl = useRef<HTMLAudioElement>(null);
   const [inCall, setInCall] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-
+  const [isMuted, setIsMuted] = useState(false);
   useEffect(() => {
     let remoteStream = new MediaStream();
 
@@ -143,7 +144,7 @@ export default function Instamatch() {
     }
 
     async function resetRTC() {
-      location.reload();
+      router.reload()
       // setGotOffer(false);
       // goffer = false;
       // if (pc.connectionState == "connected") {
@@ -175,7 +176,6 @@ export default function Instamatch() {
         }
       }
     }
-
     return () => {
       socket.disconnect();
     };
@@ -189,8 +189,8 @@ export default function Instamatch() {
       .find((sender) => sender.track?.kind == "audio");
     if (audioSender) {
       let audioParams = audioSender.getParameters();
-       audioParams.encodings[0].maxBitrate = 32000;
-       await audioSender.setParameters(audioParams);
+      audioParams.encodings[0].maxBitrate = 32000;
+      await audioSender.setParameters(audioParams);
     }
     if (!gotOffer) {
       let offerDescription = await pc.createOffer();
@@ -226,28 +226,16 @@ export default function Instamatch() {
       <Head>
         <title>Instamatch - Talk to strangers</title>
       </Head>
+
       <div className=" w-full h-full flex justify-center">
-        <div className="p-2 w-full max-w-sm">
-        <header className=" pl-2 w-full border-b border-gray-600 pb-2 flex items-center">
-            <div className="relative overflow-hidden w-8 h-8 aspect-square object-cover">
-              <Image
-                alt="HiGuys"
-                src={logoImg}
-                fill={true}
-                sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 50vw,
-              33vw"
-              />
-            </div>
-            <h1 className=" pl-1 text-3xl font-medium ">HiGuys</h1>
-          </header>
+        <div className=" pt-5 w-full max-w-sm">
+          <Header />
           <audio className=" hidden" controls autoPlay ref={audioEl}></audio>
-          <div className=" flex-col flex w-full h-full justify-center items-center">
-            <div className="w-full h-full flex justify-center items-center flex-col p-4 max-w-sm">
-              <div className=" max-w-xl bg-blue-200 w-full rounded text-black grid grid-cols-2">
-                <div className=" py-5 col-span-2 text-black flex justify-center flex-col items-center">
+          <div className=" p-2 flex-col flex w-full justify-center">
+            <div className="w-full flex justify-center items-center flex-col max-w-sm">
+              <div className=" max-w-xl bg-slate-800 w-full rounded text-black grid grid-cols-2">
+                <div className=" py-5 col-span-2 text-white flex justify-center flex-col items-center">
                   <p> Currently Online: {onlineCount}</p>
-                  {/* <p>{gotOffer ? "offered" : "not offered"}</p> */}
                 </div>
                 <div className=" py-5 w-full flex-col flex justify-center items-center h-full">
                   <div className="relative overflow-hidden w-1/2 aspect-square object-cover rounded-full">
@@ -260,7 +248,7 @@ export default function Instamatch() {
               33vw"
                     />
                   </div>
-                  <div className=" font-semibold text-lg mt-2">
+                  <div className=" text-white font-semibold text-lg mt-2">
                     {session?.user?.name?.split(" ")[0]}
                   </div>
                 </div>
@@ -270,7 +258,7 @@ export default function Instamatch() {
                       <Image alt={partnerName} src={partnerImg} fill={true} />
                     )}
                   </div>
-                  <div className=" font-semibold text-lg mt-2">
+                  <div className=" font-semibold text-white text-lg mt-2">
                     {partnerName.split(" ")[0]}
                   </div>
                 </div>
@@ -309,12 +297,12 @@ export default function Instamatch() {
                       </button>
                     </>
                   )}
-                  <div className=" text-black">{queuedMsg}</div>
+                  <div className=" text-white">{queuedMsg}</div>
                 </div>
               </div>
             </div>
             <Link href="/">
-              <button className=" px-2 bg-gray-800 w-full text-gray-400 rounded-sm mt-3 py-1 font-semibold text-lg">
+              <button className=" px-2 bg-slate-800 w-full text-gray-400 rounded-sm mt-2 py-2 font-semibold">
                 Go to Home
               </button>
             </Link>
