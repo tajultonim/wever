@@ -71,35 +71,33 @@ export default function Instamatch() {
     });
 
     async function initRTC() {
-      const servers = {
+      const servers: RTCConfiguration = {
         iceServers: [
           {
-            url: "stun:global.stun.twilio.com:3478",
-            urls: "stun:global.stun.twilio.com:3478",
+            urls: "stun:a.relay.metered.ca:80",
           },
           {
-            url: "turn:global.turn.twilio.com:3478?transport=udp",
-            username:
-              "a1020a62231a207345398a1aacfb5b34443a880860f62e8af076675f25fa6e98",
-            urls: "turn:global.turn.twilio.com:3478?transport=udp",
-            credential: "JXZ0G2p/60SlorIvb/MDKPpSMFzSPtAwxNg0OIDFVmI=",
+            urls: "turn:a.relay.metered.ca:80",
+            username: "b9a625e603e7a6031926be73",
+            credential: "k5/Plpf1gcIbp+84",
           },
           {
-            url: "turn:global.turn.twilio.com:3478?transport=tcp",
-            username:
-              "a1020a62231a207345398a1aacfb5b34443a880860f62e8af076675f25fa6e98",
-            urls: "turn:global.turn.twilio.com:3478?transport=tcp",
-            credential: "JXZ0G2p/60SlorIvb/MDKPpSMFzSPtAwxNg0OIDFVmI=",
+            urls: "turn:a.relay.metered.ca:80?transport=tcp",
+            username: "b9a625e603e7a6031926be73",
+            credential: "k5/Plpf1gcIbp+84",
           },
           {
-            url: "turn:global.turn.twilio.com:443?transport=tcp",
-            username:
-              "a1020a62231a207345398a1aacfb5b34443a880860f62e8af076675f25fa6e98",
-            urls: "turn:global.turn.twilio.com:443?transport=tcp",
-            credential: "JXZ0G2p/60SlorIvb/MDKPpSMFzSPtAwxNg0OIDFVmI=",
+            urls: "turn:a.relay.metered.ca:443",
+            username: "b9a625e603e7a6031926be73",
+            credential: "k5/Plpf1gcIbp+84",
+          },
+          {
+            urls: "turn:a.relay.metered.ca:443?transport=tcp",
+            username: "b9a625e603e7a6031926be73",
+            credential: "k5/Plpf1gcIbp+84",
           },
         ],
-        iceCandidatePoolSize: 10,
+       // iceTransportPolicy: "relay",
       };
       pc = new RTCPeerConnection(servers);
 
@@ -117,6 +115,10 @@ export default function Instamatch() {
       pc.addEventListener("track", pcTrackEvent);
 
       pc.addEventListener("icecandidate", pcIceCandidateEvent);
+
+      pc.addEventListener("icecandidateerror", (ev) => {
+        console.log(ev);
+      });
 
       socket.on("offered", (data) => {
         setGotOffer(true);
@@ -164,8 +166,7 @@ export default function Instamatch() {
 
     function pcIceCandidateEvent(ev: RTCPeerConnectionIceEvent) {
       if (ev.candidate) {
-        console.log(goffer);
-
+        console.log(ev.candidate);
         if (!goffer) {
           socket.emit("offercandidate", ev.candidate.toJSON());
         } else {
