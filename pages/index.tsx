@@ -20,8 +20,8 @@ export default function Home() {
           <Header />
           <main className=" p-2 w-full flex justify-center items-center py-2 flex-col">
             <div className=" w-full rounded-xl bg-slate-800">
-              <div className=" border-b border-gray-700 p-3 pb-2 flex w-full items-center">
-                <div className="relative rounded-full overflow-hidden w-8 h-8 aspect-square object-cover">
+              <div className=" border-b border-gray-700 p-3 py-4 flex w-full items-center">
+                <div className="relative rounded-full overflow-hidden w-10 h-10 aspect-square object-cover">
                   <Image
                     alt={session?.user?.name || ""}
                     src={session?.user?.image || noAvaterImg}
@@ -31,14 +31,14 @@ export default function Home() {
       33vw"
                   />
                 </div>
-                <p className=" ml-2 text-lg font-semibold">
+                <p className=" ml-2 text-lg font-medium">
                   Let&apos;s dive into practice :)
                 </p>
               </div>
               <div className=" w-full grid grid-cols-2">
                 <div className="p-2 border-r border-gray-700">
                   <button
-                    className=" w-full h-full text-lg font-semibold text-gray-400"
+                    className=" w-full h-full text-lg font-medium text-gray-400"
                     onClick={() => {
                       alert("Comming (not soon) 😑");
                     }}
@@ -48,7 +48,7 @@ export default function Home() {
                 </div>
                 <div className="p-2">
                   <button
-                    className=" w-full h-full text-lg font-semibold text-gray-400"
+                    className=" w-full h-full text-lg font-medium text-gray-400"
                     onClick={() => {
                       router.push("/instamatch");
                     }}
