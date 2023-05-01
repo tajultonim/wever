@@ -100,7 +100,7 @@ export default function Instamatch() {
             credential: "k5/Plpf1gcIbp+84",
           },
         ],
-        iceTransportPolicy: "relay",
+        iceTransportPolicy: "all",
       };
       pc = new RTCPeerConnection(servers);
 
@@ -145,7 +145,7 @@ export default function Instamatch() {
     }
 
     async function resetRTC() {
-      window.location.reload()
+      window.location.reload();
       // setGotOffer(false);
       // goffer = false;
       // if (pc.connectionState == "connected") {
