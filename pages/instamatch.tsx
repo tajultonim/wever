@@ -15,7 +15,7 @@ let offerDescription: RTCSessionDescription;
 
 export default function Instamatch() {
   const { data: session } = useSession();
-  const router = useRouter()
+  const router = useRouter();
   const [onlineCount, setOnlineCount] = useState(0);
   const [queuedMsg, setQueuedMsg] = useState("Connecting...");
   const [partnerName, setPartnerName] = useState("");
@@ -100,6 +100,7 @@ export default function Instamatch() {
             credential: "k5/Plpf1gcIbp+84",
           },
         ],
+        iceTransportPolicy: "relay",
       };
       pc = new RTCPeerConnection(servers);
 
@@ -144,7 +145,7 @@ export default function Instamatch() {
     }
 
     async function resetRTC() {
-      router.reload()
+      router.reload();
       // setGotOffer(false);
       // goffer = false;
       // if (pc.connectionState == "connected") {
