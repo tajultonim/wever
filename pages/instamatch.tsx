@@ -15,7 +15,7 @@ let offerDescription: RTCSessionDescription;
 export default function Instamatch() {
   const { data: session } = useSession();
   const [onlineCount, setOnlineCount] = useState(0);
-  const [queuedMsg, setQueuedMsg] = useState("");
+  const [queuedMsg, setQueuedMsg] = useState("Connecting...");
   const [partnerName, setPartnerName] = useState("");
   const [partnerImg, setPartnerImg] = useState("/img/avatar.svg");
   const [isMatched, setIsMatched] = useState(false);
@@ -184,6 +184,14 @@ export default function Instamatch() {
   function setMuteState(m: boolean) {}
   async function acceptBtnHandler() {
     setInCall(true);
+    let audioSender = pc
+      .getSenders()
+      .find((sender) => sender.track?.kind == "audio");
+    if (audioSender) {
+      let audioParams = audioSender.getParameters();
+       audioParams.encodings[0].maxBitrate = 32000;
+       await audioSender.setParameters(audioParams);
+    }
     if (!gotOffer) {
       let offerDescription = await pc.createOffer();
       await pc.setLocalDescription(offerDescription);
@@ -220,7 +228,7 @@ export default function Instamatch() {
       </Head>
       <div className=" w-full h-full flex justify-center">
         <div className="p-2 w-full max-w-sm">
-          <header className=" pl-2 w-full border-b pb-2 flex items-center">
+        <header className=" pl-2 w-full border-b border-gray-600 pb-2 flex items-center">
             <div className="relative overflow-hidden w-8 h-8 aspect-square object-cover">
               <Image
                 alt="HiGuys"
