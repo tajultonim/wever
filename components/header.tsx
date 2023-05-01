@@ -16,7 +16,8 @@ export default function Header() {
     window.addEventListener("offline", () => {
       setIsOnline(false);
     });
-  });
+    setIsOnline(window.navigator.onLine);
+  }, []);
 
   return (
     <>
@@ -55,7 +56,9 @@ export default function Header() {
           </div>
           <div
             className={`${
-              isProfileOptionEnabled ? "scale-100 opacity-100" : "scale-0 opacity-0"
+              isProfileOptionEnabled
+                ? "scale-100 opacity-100"
+                : "scale-0 opacity-0"
             } origin-top-right duration-300  p-1 box-border w-52 -translate-x-[165px] translate-y-3 absolute bg-gray-500 rounded flex justify-center flex-col items-center`}
           >
             <p className=" pb-[2px] whitespace-nowrap font-semibold">
