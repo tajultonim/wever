@@ -31,14 +31,14 @@ export default function Home() {
       33vw"
                   />
                 </div>
-                <p className=" ml-2">
+                <p className=" ml-2 text-lg font-semibold">
                   Let&apos;s dive into practice :)
                 </p>
               </div>
               <div className=" w-full grid grid-cols-2">
                 <div className="p-2 border-r border-gray-700">
                   <button
-                    className=" w-full h-full"
+                    className=" w-full h-full text-lg font-semibold text-gray-400"
                     onClick={() => {
                       alert("Comming (not soon) 😑");
                     }}
@@ -48,7 +48,7 @@ export default function Home() {
                 </div>
                 <div className="p-2">
                   <button
-                    className=" w-full h-full"
+                    className=" w-full h-full text-lg font-semibold text-gray-400"
                     onClick={() => {
                       router.push("/instamatch");
                     }}
