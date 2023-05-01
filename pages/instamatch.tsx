@@ -233,7 +233,7 @@ export default function Instamatch() {
           <audio className=" hidden" controls autoPlay ref={audioEl}></audio>
           <div className=" p-2 flex-col flex w-full justify-center">
             <div className="w-full flex justify-center items-center flex-col max-w-sm">
-              <div className=" max-w-xl bg-slate-800 w-full rounded text-black grid grid-cols-2">
+              <div className=" max-w-xl bg-slate-800 w-full rounded-xl text-black grid grid-cols-2">
                 <div className=" py-5 col-span-2 text-white flex justify-center flex-col items-center">
                   <p> Currently Online: {onlineCount}</p>
                 </div>
@@ -302,7 +302,7 @@ export default function Instamatch() {
               </div>
             </div>
             <Link href="/">
-              <button className=" px-2 bg-slate-800 w-full text-gray-400 rounded-sm mt-2 py-2 font-semibold">
+              <button className=" px-2 bg-slate-800 w-full text-gray-400 rounded-xl mt-2 py-2 font-semibold">
                 Go to Home
               </button>
             </Link>
