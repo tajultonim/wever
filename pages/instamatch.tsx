@@ -97,7 +97,7 @@ export default function Instamatch() {
             credential: "k5/Plpf1gcIbp+84",
           },
         ],
-       // iceTransportPolicy: "relay",
+        iceTransportPolicy: "relay",
       };
       pc = new RTCPeerConnection(servers);
 
