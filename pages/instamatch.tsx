@@ -100,6 +100,7 @@ export default function Instamatch() {
             credential: "eUEcqD8d1ci4y2fK",
           },
         ],
+        iceTransportPolicy: "relay",
       };
 
       pc = new RTCPeerConnection(servers);
@@ -170,7 +171,7 @@ export default function Instamatch() {
 
     function pcIceCandidateEvent(ev: RTCPeerConnectionIceEvent) {
       if (ev.candidate) {
-        console.log("ICE Candidate ",ev.candidate);
+        console.log("ICE Candidate ", ev.candidate);
         if (!goffer) {
           socket.emit("offercandidate", ev.candidate.toJSON());
         } else {
