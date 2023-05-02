@@ -100,8 +100,8 @@ export default function Instamatch() {
             credential: "eUEcqD8d1ci4y2fK",
           },
         ],
-        iceTransportPolicy: "all",
       };
+
       pc = new RTCPeerConnection(servers);
 
       navigator.mediaDevices
