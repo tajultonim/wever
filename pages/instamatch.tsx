@@ -76,9 +76,9 @@ export default function Instamatch() {
     async function initRTC() {
       const servers: RTCConfiguration = {
         iceServers: [
-          {
-            urls: "stun:a.relay.metered.ca:80",
-          },
+          // {
+          //   urls: "stun:a.relay.metered.ca:80",
+          // },
           {
             urls: "stun:stun.l.google.com:19302",
           },
@@ -128,6 +128,20 @@ export default function Instamatch() {
         if (pc.iceConnectionState === "failed") {
           console.log("ICE Restart");
           pc.restartIce();
+        }
+      });
+
+      pc.addEventListener("connectionstatechange", (ev) => {
+        let state = pc.connectionState;
+        switch (state) {
+          case "closed":
+            console.log("connection closed");
+          case "failed":
+            console.log("connection failed");
+          case "disconnected":
+            console.log("connection disconnected");
+          case "connected":
+            console.log("connection eshtablished");
         }
       });
 
