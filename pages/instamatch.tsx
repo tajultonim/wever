@@ -120,7 +120,8 @@ export default function Instamatch() {
       pc.addEventListener("icecandidate", pcIceCandidateEvent);
 
       pc.addEventListener("icecandidateerror", (ev) => {
-        console.log(ev);
+        console.log("ICE Error", ev);
+        pc.restartIce();
       });
 
       socket.on("offered", (data) => {
@@ -169,7 +170,7 @@ export default function Instamatch() {
 
     function pcIceCandidateEvent(ev: RTCPeerConnectionIceEvent) {
       if (ev.candidate) {
-        console.log(ev.candidate);
+        console.log("ICE Candidate ",ev.candidate);
         if (!goffer) {
           socket.emit("offercandidate", ev.candidate.toJSON());
         } else {
