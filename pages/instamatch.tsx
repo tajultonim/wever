@@ -80,6 +80,9 @@ export default function Instamatch() {
             urls: "stun:a.relay.metered.ca:80",
           },
           {
+            urls: "stun:stun.l.google.com:19302",
+          },
+          {
             urls: "turn:a.relay.metered.ca:80",
             username: "0619f03d44b0248dde925ecb",
             credential: "eUEcqD8d1ci4y2fK",
@@ -122,16 +125,23 @@ export default function Instamatch() {
 
       pc.addEventListener("icecandidateerror", (ev) => {
         console.log("ICE Error", ev);
-        pc.restartIce();
+        if (pc.iceConnectionState === "failed") {
+          console.log("ICE Restart");
+          pc.restartIce();
+        }
       });
 
       socket.on("offered", (data) => {
+        console.log("Got offer");
+
         setGotOffer(true);
         goffer = true;
         offerDescription = data;
       });
 
       socket.on("answered", async (data) => {
+        console.log("Got answer");
+
         setQueuedMsg("In Call...");
         let answerDescription = new RTCSessionDescription(data);
         if (!pc.currentRemoteDescription && answerDescription) {
@@ -141,6 +151,8 @@ export default function Instamatch() {
       });
 
       socket.on("answercandidate", (data) => {
+        console.log("Got Answer candidata");
+
         let candidate = new RTCIceCandidate(data);
         pc.addIceCandidate(candidate);
       });
@@ -213,7 +225,6 @@ export default function Instamatch() {
       });
       let answerDescription = await pc.createAnswer();
       await pc.setLocalDescription(answerDescription);
-      console.log("goff", pc.signalingState);
 
       let answer = {
         type: answerDescription.type,
