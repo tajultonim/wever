@@ -123,11 +123,25 @@ export default function Instamatch() {
 
       pc.addEventListener("icecandidate", pcIceCandidateEvent);
 
-      pc.addEventListener("icecandidateerror", (ev) => {
-        console.log("ICE Error", ev);
-        if (pc.iceConnectionState === "failed") {
-          console.log("ICE Restart");
-          pc.restartIce();
+      pc.addEventListener("icecandidateerror", (e) => {
+        let ev: RTCPeerConnectionIceErrorEvent = e as any;
+        let state = pc.iceConnectionState;
+        switch (state) {
+          case "checking":
+            console.log("ice checking", ev.url);
+          case "completed":
+            console.log("ice completed", ev.url);
+          case "disconnected":
+            console.log("ice disconnected", ev.url);
+          case "closed":
+            console.log("ice closed", ev.url);
+          case "connected":
+            console.log("ice connected", ev.url);
+          case "failed":
+            console.log("ice failed", ev.url);
+            pc.restartIce();
+          case "new":
+            console.log("ice new", ev.url);
         }
       });
 
@@ -142,6 +156,7 @@ export default function Instamatch() {
             console.log("connection disconnected");
           case "connected":
             console.log("connection eshtablished");
+            setQueuedMsg("In call...");
         }
       });
 
@@ -156,7 +171,7 @@ export default function Instamatch() {
       socket.on("answered", async (data) => {
         console.log("Got answer");
 
-        setQueuedMsg("In Call...");
+        setQueuedMsg("Call connecting...");
         let answerDescription = new RTCSessionDescription(data);
         if (!pc.currentRemoteDescription && answerDescription) {
           console.log("set remote desc");
@@ -245,7 +260,7 @@ export default function Instamatch() {
         sdp: answerDescription.sdp,
       };
       socket.emit("ianswer", answer);
-      setQueuedMsg("In Call...");
+      setQueuedMsg("Call connecting");
     }
   }
 
