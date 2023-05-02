@@ -103,7 +103,6 @@ export default function Instamatch() {
             credential: "eUEcqD8d1ci4y2fK",
           },
         ],
-        iceTransportPolicy: "relay",
       };
 
       pc = new RTCPeerConnection(servers);
@@ -260,7 +259,7 @@ export default function Instamatch() {
         sdp: answerDescription.sdp,
       };
       socket.emit("ianswer", answer);
-      setQueuedMsg("Call connecting");
+      setQueuedMsg("Call connecting...");
     }
   }
 
