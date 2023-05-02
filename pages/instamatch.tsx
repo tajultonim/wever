@@ -332,9 +332,9 @@ export default function Instamatch() {
                       <button
                         className=" text-blue-500 font-semibold py-1"
                         onClick={() => {
-                          let y = confirm(
-                            "Are you sure? Don't regret later :)"
-                          );
+                          let y = inCall
+                            ? confirm("Are you sure? Don't regret later :)")
+                            : true;
                           if (y) {
                             socket.emit("stop");
                           }
