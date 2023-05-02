@@ -332,7 +332,12 @@ export default function Instamatch() {
                       <button
                         className=" text-blue-500 font-semibold py-1"
                         onClick={() => {
-                          socket.emit("stop");
+                          let y = confirm(
+                            "Are you sure? Don't regret later :)"
+                          );
+                          if (y) {
+                            socket.emit("stop");
+                          }
                         }}
                       >
                         Skip
