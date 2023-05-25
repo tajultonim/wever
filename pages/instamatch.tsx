@@ -103,6 +103,7 @@ export default function Instamatch() {
             credential: "eUEcqD8d1ci4y2fK",
           },
         ],
+        iceTransportPolicy: "relay",
       };
 
       pc = new RTCPeerConnection(servers);
