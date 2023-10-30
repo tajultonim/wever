@@ -17,7 +17,8 @@ export default withAuth({
   },
 });
 
-
-export const config={
-  matcher:["/","/instamatch"]
-}
+export const config = {
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|signin|icons|manifest.json|img|sw.js|workbox-[a-zA-Z0-9_]+\.js).*)",
+  ],
+};

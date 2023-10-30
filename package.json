@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "dependencies": {},
+  "dependencies": {
+    "sharp": "^0.32.6"
+  },
   "devDependencies": {
     "@next-auth/supabase-adapter": "^0.2.1",
     "@supabase/supabase-js": "^2.38.4",

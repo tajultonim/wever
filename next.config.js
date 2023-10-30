@@ -18,6 +18,9 @@ const nextConfig = withPWA({
       },
     ],
   },
+  experimental: {
+    webpackBuildWorker: true,
+  },
 });
 
 module.exports = nextConfig;
