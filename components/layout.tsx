@@ -8,7 +8,7 @@ const Layout: FC<{
 }> = ({ children, RightSidebar, LeftSidebar }) => {
   return (
     <div className="flex w-full justify-center">
-      <div className="max-w-5xl w-full flex justify-center">
+      <div className="max-w-6xl w-full flex justify-center">
         <div className="grid gap-x-2 w-full grid-cols-12  px-4 ">
           <header className=" py-7 pt-8 sm:py-3 sm:bg-[#F7EEE5] z-50 sm:sticky top-0 col-span-12">
             <Header />
