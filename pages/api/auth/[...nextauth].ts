@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import { SupabaseAdapter } from "@next-auth/supabase-adapter";
 import GoogleProvider from "next-auth/providers/google";
 import { SignJWT, jwtVerify } from "jose";
@@ -7,7 +7,7 @@ import { JWTDecodeParams, JWTEncodeParams } from "next-auth/jwt";
 const useSecureCookies = process.env.NEXTAUTH_URL?.startsWith("https://");
 const cookiePrefix = useSecureCookies ? "__Secure-" : "";
 
-export default NextAuth({
+const authOptions: AuthOptions = {
   session: {
     strategy: "jwt",
   },
@@ -63,5 +63,10 @@ export default NextAuth({
       return true; // Do different verification for other providers that don't have `email_verified`
     },
   },
-  
-});
+  pages: {
+    signIn: "/signin",
+  },
+};
+
+export default NextAuth(authOptions);
+export { authOptions };

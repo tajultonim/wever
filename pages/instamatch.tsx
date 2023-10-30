@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
-import { io, Socket } from "socket.io-client";
+
 import { parseCookies } from "nookies";
 import Link from "next/link";
 import Head from "next/head";
@@ -9,15 +9,15 @@ import noAvatarImg from "../public/img/avatar.svg";
 import Header from "@/components/header";
 import { useRouter } from "next/router";
 
-let socket: Socket = io("", { autoConnect: false });
-let pc: RTCPeerConnection;
-let offerDescription: RTCSessionDescription;
+let connection: any = null;
+let conference: any = null;
 
 export default function Instamatch() {
   const { data: session } = useSession();
   const router = useRouter();
   const [onlineCount, setOnlineCount] = useState(0);
   const [queuedMsg, setQueuedMsg] = useState("Connecting...");
+  const [roomId, setRoomId] = useState("");
   const [partnerName, setPartnerName] = useState("");
   const [partnerImg, setPartnerImg] = useState("/img/avatar.svg");
   const [isMatched, setIsMatched] = useState(false);
@@ -25,244 +25,8 @@ export default function Instamatch() {
   const audioEl = useRef<HTMLAudioElement>(null);
   const [inCall, setInCall] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  useEffect(() => {
-    let remoteStream = new MediaStream();
 
-    socket = io(process.env.NEXT_PUBLIC_SOCKET_SERVER || "", {
-      autoConnect: false,
-      auth: {
-        token:
-          parseCookies()[
-            `${
-              window.location.href?.startsWith("https://") ? "__Secure-" : ""
-            }next-auth.session-token`
-          ],
-      },
-    });
-    let goffer = false;
-    initRTC();
-    socket.connect();
-    socket.on("connect", () => {
-      socket.emit("start", socket.id);
-    });
-    socket.on("currentlyOnline", setOnlineCount);
-    socket.on("queued", setQueuedMsg);
-    socket.on("matched", (data) => {
-      setQueuedMsg("Matched");
-      setIsMatched(true);
-      let partner = data.participants.find(
-        (u: { id: string; user: any }) => u.id != socket.id
-      );
-      setPartnerName(partner.user.name);
-      setPartnerImg(partner.user.picture);
-    });
-
-    socket.on("pdisconnected", () => {
-      setPartnerName("");
-      setPartnerImg("/img/avatar.svg");
-      setIsMatched(false);
-      resetRTC();
-      socket.emit("start", socket.id);
-    });
-
-    socket.on("ydisconnected", () => {
-      setPartnerName("");
-      setPartnerImg("/img/avatar.svg");
-      setIsMatched(false);
-      resetRTC();
-      socket.emit("start", socket.id);
-    });
-
-    async function initRTC() {
-      const servers: RTCConfiguration = {
-        iceServers: [
-          // {
-          //   urls: "stun:a.relay.metered.ca:80",
-          // },
-          {
-            urls: "stun:stun.l.google.com:19302",
-          },
-          {
-            urls: "turn:a.relay.metered.ca:80",
-            username: "0619f03d44b0248dde925ecb",
-            credential: "eUEcqD8d1ci4y2fK",
-          },
-          {
-            urls: "turn:a.relay.metered.ca:80?transport=tcp",
-            username: "0619f03d44b0248dde925ecb",
-            credential: "eUEcqD8d1ci4y2fK",
-          },
-          {
-            urls: "turn:a.relay.metered.ca:443",
-            username: "0619f03d44b0248dde925ecb",
-            credential: "eUEcqD8d1ci4y2fK",
-          },
-          {
-            urls: "turn:a.relay.metered.ca:443?transport=tcp",
-            username: "0619f03d44b0248dde925ecb",
-            credential: "eUEcqD8d1ci4y2fK",
-          },
-        ],
-        iceTransportPolicy: "relay",
-      };
-
-      pc = new RTCPeerConnection(servers);
-
-      navigator.mediaDevices
-        .getUserMedia({
-          audio: true,
-          video: false,
-        })
-        .then((stream) => {
-          stream.getTracks().forEach((track) => {
-            pc.addTrack(track, stream);
-          });
-        });
-
-      pc.addEventListener("track", pcTrackEvent);
-
-      pc.addEventListener("icecandidate", pcIceCandidateEvent);
-
-      pc.addEventListener("icecandidateerror", (e) => {
-        let ev: RTCPeerConnectionIceErrorEvent = e as any;
-        let state = pc.iceConnectionState;
-        switch (state) {
-          case "checking":
-            console.log("ice checking", ev.url);
-          case "completed":
-            console.log("ice completed", ev.url);
-          case "disconnected":
-            console.log("ice disconnected", ev.url);
-          case "closed":
-            console.log("ice closed", ev.url);
-          case "connected":
-            console.log("ice connected", ev.url);
-          case "failed":
-            console.log("ice failed", ev.url);
-            pc.restartIce();
-          case "new":
-            console.log("ice new", ev.url);
-        }
-      });
-
-      pc.addEventListener("connectionstatechange", (ev) => {
-        let state = pc.connectionState;
-        switch (state) {
-          case "closed":
-            console.log("connection closed");
-          case "failed":
-            console.log("connection failed");
-          case "disconnected":
-            console.log("connection disconnected");
-          case "connected":
-            console.log("connection eshtablished");
-            setQueuedMsg("In call...");
-        }
-      });
-
-      socket.on("offered", (data) => {
-        console.log("Got offer");
-
-        setGotOffer(true);
-        goffer = true;
-        offerDescription = data;
-      });
-
-      socket.on("answered", async (data) => {
-        console.log("Got answer");
-
-        setQueuedMsg("Call connecting...");
-        let answerDescription = new RTCSessionDescription(data);
-        if (!pc.currentRemoteDescription && answerDescription) {
-          console.log("set remote desc");
-          await pc.setRemoteDescription(answerDescription);
-        }
-      });
-
-      socket.on("answercandidate", (data) => {
-        console.log("Got Answer candidata");
-
-        let candidate = new RTCIceCandidate(data);
-        pc.addIceCandidate(candidate);
-      });
-    }
-
-    async function resetRTC() {
-      window.location.reload();
-      // setGotOffer(false);
-      // goffer = false;
-      // if (pc.connectionState == "connected") {
-      //   pc.close();
-      // }
-      // console.log(pc.signalingState);
-
-      // pc.removeEventListener("icecandidate", pcIceCandidateEvent);
-      // pc.removeEventListener("track", pcTrackEvent);
-      // initRTC();
-      // console.log(pc.getConfiguration())
-      // console.log(pc.signalingState);
-    }
-
-    function pcTrackEvent(ev: RTCTrackEvent) {
-      ev.streams[0].getTracks().forEach((track) => {
-        remoteStream.addTrack(track);
-      });
-      if (audioEl.current) audioEl.current.srcObject = remoteStream;
-    }
-
-    function pcIceCandidateEvent(ev: RTCPeerConnectionIceEvent) {
-      if (ev.candidate) {
-        console.log("ICE Candidate ", ev.candidate);
-        if (!goffer) {
-          socket.emit("offercandidate", ev.candidate.toJSON());
-        } else {
-          socket.emit("answercandidate", ev.candidate.toJSON());
-        }
-      }
-    }
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
-  function setMuteState(m: boolean) {}
-  async function acceptBtnHandler() {
-    setInCall(true);
-    let audioSender = pc
-      .getSenders()
-      .find((sender) => sender.track?.kind == "audio");
-    if (audioSender) {
-      let audioParams = audioSender.getParameters();
-      audioParams.encodings[0].maxBitrate = 32000;
-      await audioSender.setParameters(audioParams);
-    }
-    if (!gotOffer) {
-      let offerDescription = await pc.createOffer();
-      await pc.setLocalDescription(offerDescription);
-      let offer = {
-        sdp: offerDescription.sdp,
-        type: offerDescription.type,
-      };
-      socket.emit("ioffer", offer);
-    } else {
-      await pc.setRemoteDescription(
-        new RTCSessionDescription(offerDescription)
-      );
-      socket.on("offercandidate", (data) => {
-        let candidate = new RTCIceCandidate(data);
-        if (pc.remoteDescription) pc.addIceCandidate(candidate);
-      });
-      let answerDescription = await pc.createAnswer();
-      await pc.setLocalDescription(answerDescription);
-
-      let answer = {
-        type: answerDescription.type,
-        sdp: answerDescription.sdp,
-      };
-      socket.emit("ianswer", answer);
-      setQueuedMsg("Call connecting...");
-    }
-  }
+  function acceptBtnHandler() {}
 
   return (
     <>
@@ -332,14 +96,7 @@ export default function Instamatch() {
                       )}
                       <button
                         className=" text-blue-500 font-semibold py-1"
-                        onClick={() => {
-                          let y = inCall
-                            ? confirm("Are you sure? Don't regret later :)")
-                            : true;
-                          if (y) {
-                            socket.emit("stop");
-                          }
-                        }}
+                        onClick={() => {}}
                       >
                         Skip
                       </button>
@@ -360,3 +117,8 @@ export default function Instamatch() {
     </>
   );
 }
+
+const genRanHex = (size) =>
+  [...Array(size)]
+    .map(() => Math.floor(Math.random() * 16).toString(16))
+    .join("");

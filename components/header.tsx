@@ -4,6 +4,9 @@ import logoImg from "../public/icons/icon-192x192.png";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { LuMessagesSquare, LuBell } from "react-icons/lu";
+import { Blinker } from "./blinker";
+import { Search } from "./search";
 
 export default function Header() {
   const { data: session } = useSession();
@@ -20,6 +23,48 @@ export default function Header() {
     });
     setIsOnline(window.navigator.onLine);
   }, []);
+
+  return (
+    <>
+      <div className="flex justify-between ">
+        <div className="hidden sm:block"></div>
+        <div className=" sm:hidden flex items-center gap-1">
+          <div className=" relative h-10 aspect-square rounded-full overflow-hidden">
+            <Image
+              alt="Profile Image"
+              fill
+              src={session?.user?.image || noAvaterImg}
+            />
+          </div>
+          <Blinker
+            className=" hover:cursor-pointer hover:bg-[var(--c-l2)] rounded-full p-1"
+            active={true}
+          >
+            <div className="h-8 w-8 p-1">
+              <LuMessagesSquare className="w-full h-full" />
+            </div>
+          </Blinker>
+          <Blinker
+            className=" hover:cursor-pointer hover:bg-[var(--c-l2)] rounded-full p-1"
+            active={false}
+          >
+            <div className="h-8 w-8 p-1">
+              <LuBell className="w-full h-full" />
+            </div>
+          </Blinker>
+        </div>
+        <div className=" flex items-center gap-3">
+          <div className="hidden sm:flex bg-white items-center w-full ml-16 h-10 rounded-3xl shadow-sm overflow-hidden">
+            <Search />
+          </div>
+          <p className=" text-[var(--c-l7)] font-bold text-2xl">WEVER</p>
+        </div>
+      </div>
+      <div className=" sm:hidden bg-white items-center mt-4 w-full flex h-10 rounded-3xl shadow-sm overflow-hidden">
+        <Search />
+      </div>
+    </>
+  );
 
   return (
     <>
