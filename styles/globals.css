@@ -29,4 +29,8 @@
     @apply bg-[#F7EEE5] font-montserrat
   }
 
+  *{
+    @apply select-none
+  }
+
 }
