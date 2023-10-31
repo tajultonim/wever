@@ -10,19 +10,17 @@ module.exports = {
       center: true,
     },
     screens: {
-      xs: "320px",
+      xs: "321px",
       // => @media (min-width: 320px) { ... }
 
-      sm: "640px",
+      sm: "550px",
       // => @media (min-width: 640px) { ... }
-
-      md: "920px",
-      // => @media (min-width: 768px) { ... }
+      md: "720px",
 
       lg: "1024px",
       // => @media (min-width: 1024px) { ... }
 
-      xl: "1280px",
+      xl: "1100px",
       // => @media (min-width: 1280px) { ... }
 
       "2xl": "1536px",

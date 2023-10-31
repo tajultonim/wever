@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import Image from "next/image";
 import { BiMicrophone } from "react-icons/bi";
 import { BsPeopleFill } from "react-icons/bs";
@@ -41,7 +41,7 @@ const RoomCard: FC<{
           ) : (
             <></>
           )}
-          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 xs:grid-cols-2 xl:grid-cols-3 gap-2">
             {speakers.map((speaker) => (
               <div className="flex items-center gap-1" key={speaker}>
                 <div className=" text-[var(--c-l7)]">
