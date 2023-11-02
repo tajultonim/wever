@@ -1,5 +1,5 @@
 {
-  "name": "Wever",
+  "name": "WEVER",
   "id":"wever",
   "short_name": "wever",
   "description": "Wever is a audio chat app.",
@@ -10,7 +10,7 @@
   "scope": "/",
   "start_url": "/",
   "protocol_handlers": [{
-    "protocol": "web+higuys",
+    "protocol": "web+wever",
     "url": "/%s"
   }],
   "icons": [{

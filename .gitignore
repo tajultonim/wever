@@ -36,3 +36,4 @@ next-env.d.ts
 .env
 /public/workbox-*.js
 /public/sw.js
+/ignore
