@@ -4,8 +4,6 @@ export default function Loading() {
   return (
     <>
       <SkeletonRoomCard />
-      <SkeletonRoomCard />
-      <SkeletonRoomCard />
     </>
   );
 }

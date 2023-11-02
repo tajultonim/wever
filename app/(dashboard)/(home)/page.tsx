@@ -1,9 +1,4 @@
 import { RoomCard } from "@/components/layout/roomcard";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Home — WEVER",
-};
 
 export default function Home() {
   return (

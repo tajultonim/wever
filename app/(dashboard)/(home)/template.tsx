@@ -1,6 +1,11 @@
 import { ReactNode } from "react";
 import { HomeFeedTogele } from "@/components/buttons/home-feed-toogle";
 import { CreateRoom } from "@/components/layout/create-room";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home — WEVER",
+};
 
 export default function HomeTemplate({ children }: { children: ReactNode }) {
   return (

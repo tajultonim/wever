@@ -1,5 +1,10 @@
 import Image from "next/image";
 import NotFoundCounter from "@/components/layout/not-found-counter";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Not Found — WEVER",
+};
 
 export default function NotFound() {
   return (

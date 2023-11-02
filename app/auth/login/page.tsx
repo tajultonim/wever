@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { Metadata, NextPage } from "next";
 import { decode } from "@/helper/jwt/crypto";
 import { Login } from "@/components/auth/login";
 import { cookies } from "next/headers";
@@ -19,6 +19,10 @@ async function validateJWT(cburl: string | undefined) {
     redirect(cburl ? cburl : "/");
   }
 }
+
+export const metadata: Metadata = {
+  title: "Login — WEVER",
+};
 
 const LoginPage: NextPage<Props> = async (props) => {
   await validateJWT(props.searchParams.callbackUrl);
