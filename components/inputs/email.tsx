@@ -4,7 +4,8 @@ import { MdOutlineEmail } from "react-icons/md";
 const EmailInput: FC<{
   onChange: ChangeEventHandler<HTMLInputElement>;
   value?: string;
-}> = ({ onChange, value }) => {
+  disabled?: boolean;
+}> = ({ onChange, value, disabled }) => {
   return (
     <>
       <div className=" flex border-2 bg-[var(--c-l6)] border-[var(--c-l6)] items-center rounded-lg">
@@ -16,6 +17,7 @@ const EmailInput: FC<{
           value={value}
           className=" p-1 outline-none flex-1 rounded-r-md "
           onChange={onChange}
+          disabled={disabled}
           placeholder="Enter email"
         />
       </div>

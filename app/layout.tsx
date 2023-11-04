@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           sizes="72x72"
           href="/icons/favicon-72x72.png"
         />
-        <link rel="manifest" href="manifest.json" />
+        <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#F7EEE5" />
       </head>
       <body>

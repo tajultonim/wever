@@ -7,8 +7,9 @@ const Input: FC<{
   type: string;
   placeholder: string;
   value?: string;
+  disabled?: boolean;
   onKeyUp?: KeyboardEventHandler<HTMLInputElement>;
-}> = ({ onChange, Icon, type, placeholder, value, onKeyUp }) => {
+}> = ({ onChange, Icon, type, placeholder, value, onKeyUp, disabled }) => {
   return (
     <>
       <div className=" flex border-2 bg-[var(--c-l6)] border-[var(--c-l6)] items-center rounded-lg">
@@ -22,6 +23,7 @@ const Input: FC<{
           onChange={onChange}
           placeholder={placeholder}
           value={value}
+          disabled={disabled}
         />
       </div>
     </>

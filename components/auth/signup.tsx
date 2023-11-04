@@ -9,6 +9,29 @@ import { FaUser } from "react-icons/fa";
 import { emailReg, nameReg, passwordReg, usernameReg } from "../../helper/regs";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdPassword } from "react-icons/md";
+import { gql, useMutation } from "@apollo/client";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
+let mutation = gql`
+  mutation Create_account(
+    $email: String!
+    $password: String!
+    $name: String!
+    $username: String!
+  ) {
+    create_account(
+      email: $email
+      password: $password
+      name: $name
+      username: $username
+    ) {
+      access_token
+      refresh_token
+    }
+  }
+`;
 
 const SignUp: FC = () => {
   const [name, setName] = useState("");
@@ -16,6 +39,26 @@ const SignUp: FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [conPassword, setConPassword] = useState("");
+  const [doMutate, { data, loading, error }] = useMutation(mutation);
+  const router = useRouter();
+  const search = useSearchParams();
+  useEffect(() => {
+    if (data) {
+      Cookies.set("access-token", data.create_account.access_token, {
+        sameSite: "strict",
+        expires: new Date(new Date().getTime() + 2 * 60 * 1000),
+      });
+      Cookies.set("refresh-token", data.create_account.refresh_token, {
+        sameSite: "strict",
+        path: "/token-refresh",
+      });
+      router.replace(search.get("callbackUrl") || "/");
+    }
+    if (error) {
+      alert(error.message);
+      console.log(error);
+    }
+  });
   return (
     <>
       <Input
@@ -40,6 +83,7 @@ const SignUp: FC = () => {
         }}
         value={name}
         Icon={FaUser}
+        disabled={loading}
         placeholder="Enter name"
         type="text"
       />
@@ -69,6 +113,7 @@ const SignUp: FC = () => {
         Icon={BiRename}
         placeholder="Enter username"
         type="text"
+        disabled={loading}
       />
       <EmailInput
         onChange={(e) => {
@@ -87,6 +132,7 @@ const SignUp: FC = () => {
           );
         }}
         value={email}
+        disabled={loading}
       />
       <Input
         onChange={(e) => {
@@ -103,6 +149,7 @@ const SignUp: FC = () => {
         Icon={RiLockPasswordLine}
         placeholder="Enter password"
         type="password"
+        disabled={loading}
       />
       <Input
         onChange={(e) => {
@@ -117,15 +164,20 @@ const SignUp: FC = () => {
         Icon={MdPassword}
         placeholder="Confirm password"
         type="password"
+        disabled={loading}
       />
       <div className=" flex justify-center">
         <button
+          onClick={() => {
+            doMutate({ variables: { email, password, name, username } });
+          }}
           disabled={
             !nameReg.test(name) ||
             !usernameReg.test(username) ||
             !emailReg.test(email) ||
             !passwordReg.test(password) ||
-            password != conPassword
+            password != conPassword ||
+            loading
           }
           className=" disabled:opacity-80 text-white  w-full py-1 bg-[var(--c-l6)] rounded-lg"
         >

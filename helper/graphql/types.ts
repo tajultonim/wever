@@ -60,6 +60,11 @@ const typeDefs = `#graphql
     refresh_token:String!
   }
 
+  input IDorEmail{
+    id:ID
+    email:String
+  }
+
   type Query {
      get_users:[User]
      get_me:User
@@ -71,10 +76,15 @@ const typeDefs = `#graphql
      get_notifications(id:ID!):[Notification]
      get_verification(id:ID!):Verification
      get_tokens(id:ID!):[Token]
+     get_username_availability(username:String!):Boolean
+     get_verification_sent(input:IDorEmail):Boolean
   }
 
   type Mutation {
      login(email:String! password:String!): JWT
+     create_account(email:String! password:String! name:String! username:String!):JWT
+     send_verification_request(input:IDorEmail):Boolean
+     submit_code(code:Int!):JWT
   }
 `;
 

@@ -39,7 +39,7 @@ const Login: FC = () => {
       router.replace(search.get("callbackUrl") || "/");
     }
     if (error) {
-      alert(error.message);
+      console.log(error.graphQLErrors[0].extensions.code);
     }
   });
 

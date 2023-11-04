@@ -8,8 +8,13 @@ import get_blocked_by from "./resolvers/query/get_blocked_by";
 import get_notifications from "./resolvers/query/get_notifications";
 import get_verification from "./resolvers/query/get_verification";
 import get_tokens from "./resolvers/query/get_tokens";
+import get_username_availability from "./resolvers/query/get_username_availability";
+import get_verification_sent from "./resolvers/query/get_verification_sent";
 
 import login from "./resolvers/mutations/login";
+import create_account from "./resolvers/mutations/create_account";
+import send_verification_request from "./resolvers/mutations/send_verification_request";
+import submit_code from "./resolvers/mutations/submit_code";
 
 const resolvers = {
   Query: {
@@ -23,9 +28,14 @@ const resolvers = {
     get_notifications,
     get_verification,
     get_tokens,
+    get_username_availability,
+    get_verification_sent,
   },
   Mutation: {
     login,
+    create_account,
+    send_verification_request,
+    submit_code,
   },
 };
 

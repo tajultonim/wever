@@ -10,13 +10,13 @@ const Emoji: FC<{ emoji: string }> = ({ emoji }) => {
   const [isError, setIsError] = useState(false);
   return (
     <>
-      {emj?.["fluent-animated"]&&!isError ? (
+      {emj?.["fluent-animated"] && !isError ? (
         <span className="relative aspect-square align-middle -mt-[6px] inline-block box-border ">
           <Image
             alt={emj?.char || emoji}
             fill
             fetchPriority="low"
-            quality={10}
+            quality={1}
             sizes="10vw"
             loading="lazy"
             onError={() => {
@@ -32,5 +32,4 @@ const Emoji: FC<{ emoji: string }> = ({ emoji }) => {
   );
 };
 
-
-export default Emoji
+export default Emoji;

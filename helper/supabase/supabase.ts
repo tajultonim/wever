@@ -153,6 +153,7 @@ export interface Database {
           created_at: string
           disabled_till: string | null
           email: string
+          email_verified_at: string | null
           id: string
           image_url: string | null
           is_admin: boolean
@@ -169,9 +170,10 @@ export interface Database {
           created_at?: string
           disabled_till?: string | null
           email: string
+          email_verified_at?: string | null
           id?: string
           image_url?: string | null
-          is_admin: boolean
+          is_admin?: boolean
           name: string
           password_hash: string
           premium_till?: string | null
@@ -185,6 +187,7 @@ export interface Database {
           created_at?: string
           disabled_till?: string | null
           email?: string
+          email_verified_at?: string | null
           id?: string
           image_url?: string | null
           is_admin?: boolean
@@ -204,6 +207,7 @@ export interface Database {
           created_at: string
           id: string
           user_id: string
+          valid_until: string
         }
         Insert: {
           attempt?: number | null
@@ -212,6 +216,7 @@ export interface Database {
           created_at?: string
           id?: string
           user_id: string
+          valid_until?: string
         }
         Update: {
           attempt?: number | null
@@ -220,6 +225,7 @@ export interface Database {
           created_at?: string
           id?: string
           user_id?: string
+          valid_until?: string
         }
         Relationships: [
           {

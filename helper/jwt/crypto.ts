@@ -52,7 +52,6 @@ export async function decode(jwt?: string | undefined, secret?: string) {
     let payload: JwtPayload = res.payload;
     return payload;
   } catch (error) {
-    console.log(error);
     return null;
   }
 }
