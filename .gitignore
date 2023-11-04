@@ -37,3 +37,6 @@ next-env.d.ts
 /public/workbox-*.js
 /public/sw.js
 /ignore
+.vercel
+.env*.local
+

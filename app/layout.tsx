@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 import "./globals.css";
+import { ApolloWrapper } from "@/helper/apollo/provider";
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
@@ -24,7 +26,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="manifest" href="manifest.json" />
         <meta name="theme-color" content="#F7EEE5" />
       </head>
-      <body>{children}</body>
+      <body>
+        <ApolloWrapper>{children}</ApolloWrapper>
+      </body>
     </html>
   );
 }

@@ -9,10 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "3.8.0-rc.2",
+    "@apollo/experimental-nextjs-app-support": "^0.5.1",
+    "@apollo/server": "^4.9.5",
+    "@as-integrations/next": "github:tajultonim/apollo-server-integration-next",
     "@panva/hkdf": "^1.1.1",
     "@supabase/supabase-js": "^2.38.4",
     "@tailwindcss/line-clamp": "^0.4.4",
+    "apollo3-cache-persist": "^0.14.1",
+    "bcrypt": "^5.1.1",
+    "graphql": "^16.8.1",
     "jose": "^5.0.1",
+    "js-cookie": "^3.0.5",
     "latinize": "^2.0.0",
     "mediasoup-client": "^3.6.103",
     "next": "^14.0.0",
@@ -27,6 +35,8 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.1",
+    "@types/js-cookie": "^3.0.5",
     "@types/node": "^20.8.9",
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.14",
@@ -36,6 +46,7 @@
     "postcss": "^8.4.31",
     "tailwind-scrollbar": "^3.0.5",
     "tailwindcss": "^3.3.5",
+    "ts-invariant": "^0.10.3",
     "typescript": "^5.2.2"
   }
 }

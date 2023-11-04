@@ -6,14 +6,13 @@ import { LuMessagesSquare, LuBell } from "react-icons/lu";
 import { RiLiveFill, RiSettings3Line } from "react-icons/ri";
 import { SidebarOption } from "./sidebar-option";
 import HomeFeedButton from "./sidebar-home-button";
+import ProfileOption from "./profile-option";
+
+
 
 const OptionsSidebar: FC = () => {
-  const session = {
-    user: {
-      name: undefined,
-      image: undefined,
-    },
-  };
+ 
+
   return (
     <>
       <div className="grid gap-2 justify-end">
@@ -50,11 +49,7 @@ const OptionsSidebar: FC = () => {
             title="Settings"
             slug="settings"
           />
-          <SidebarOption
-            Icon={session?.user?.image || BsFillPersonFill}
-            title="Profile"
-            slug="/profile"
-          />
+          <ProfileOption/>
         </div>
       </div>
     </>
