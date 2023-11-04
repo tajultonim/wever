@@ -15,7 +15,7 @@ async function validateJWT(cburl: string | undefined) {
   const jwt = cookies().get("access-token")?.value;
   const payload = await decode(jwt);
   if (payload) {
-    if (!payload?.context?.roles.includes("email_verified")) {
+    if (payload?.context?.roles.includes("email_verified")) {
       redirect(cburl ? cburl : "/");
     }
   }
